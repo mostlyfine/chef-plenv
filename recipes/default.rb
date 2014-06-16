@@ -40,6 +40,15 @@ git "#{node.plenv.plenv_root}/plugins/perl-build" do
   action :sync
 end
 
+git "#{node.plenv.plenv_root}/plugins/plenv-update" do
+  not_if { File.exist?("#{node.plenv.plenv_root}/plugins/plenv-update") }
+  user node.plenv.user
+  group node.plenv.group
+  repository "git://github.com/Tacahilo/plenv-update.git"
+  reference "master"
+  action :sync
+end
+
 directory node.plenv.profile_path do
   not_if { File.exist?(node.plenv.profile_path) }
   owner node.plenv.user
